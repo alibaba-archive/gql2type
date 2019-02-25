@@ -1,0 +1,42 @@
+{
+  "name": "teambition-gql2type",
+  "version": "0.0.1",
+  "description": "This is a plugin for graphql-code-generator to transfer GraphQL schema to Typescript interfaces",
+  "license": "MIT",
+  "scripts": {
+    "prepublishOnly": "yarn build",
+    "build": "codegen-templates-scripts build",
+    "pretest": "yarn build"
+  },
+  "devDependencies": {
+    "codegen-templates-scripts": "0.16.1",
+    "graphql": "^14.1.1",
+    "graphql-codegen-core": "0.16.1",
+    "graphql-codegen-plugin-handlebars-helpers": "0.16.1",
+    "graphql-codegen-plugin-helpers": "0.16.1"
+  },
+  "main": "./dist/index.js",
+  "typings": "dist/index.d.ts",
+  "typescript": {
+    "definition": "dist/index.d.ts"
+  },
+  "jest": {
+    "globals": {
+      "ts-jest": {
+        "enableTsDiagnostics": false
+      }
+    },
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  }
+}

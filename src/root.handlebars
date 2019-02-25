@@ -1,0 +1,44 @@
+{{{ defineMaybe }}}
+
+declare module 'GQL' {
+import * as TBTypes from 'teambition-types'
+{{#each inputTypes}}
+  {{~> type }}
+{{/each}}
+{{#each enums}}
+  {{~> enum }}
+{{/each}}
+
+{{#each scalars}}
+
+{{ toComment description }}
+{{#ifCond (convert name 'typeNames' ) "!==" (getScalarType name) }}export type {{ convert name 'typeNames' }} = {{ getScalarType name }};{{/ifCond}}
+{{/each}}
+}
+
+{{#each files}}
+declare module '*/{{ filename }}' {
+    import {
+      {{#each ../inputTypes}}
+        {{ convert name 'typeNames' }},
+      {{/each}}
+      {{#each ../enums}}
+        {{ convert name 'typeNames' }},
+      {{/each}}
+      {{#each ../scalars}}
+        {{ convert name 'typeNames' }},
+      {{/each}}
+    } from 'GQL'
+    import * as TBTypes from 'teambition-types'
+    export * from 'GQL'
+
+    {{~> client}}
+
+    const __queryString: string & {
+      result: {{ convert documents.[0].name 'typeNames' }}.Query
+      variables: {{ convert documents.[0].name 'typeNames' }}.Variables
+    }
+    export default __queryString
+}
+
+{{/each}}
