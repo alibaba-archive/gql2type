@@ -7,8 +7,8 @@ export const idMap = {
 export const ObjectIdMap = {
   executorId: 'UserId',
   creatorId: 'UserId',
-  categoryId: (typeName: string) => `${typeName}CategoryId`,
-  id: (typeName: string) => typeName && `${idMap[typeName] || typeName}Id`,
+  categoryId: (typeName: string) => typeName && `${typeName}CategoryId`,
+  '^_?id': (typeName: string) => typeName && `${idMap[typeName] || typeName}Id`,
 };
 
 export const MixedMap = {
