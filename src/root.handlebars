@@ -1,6 +1,6 @@
 {{{ defineMaybe }}}
 
-declare module 'GQL' {
+declare module '{{#if @root.config.moduleName}}{{ @root.config.moduleName }}{{else}}GraphQL{{/if}}' {
 import * as TBTypes from 'teambition-types'
 {{#each inputTypes}}
   {{~> type }}
@@ -28,9 +28,9 @@ declare module '*/{{ filename }}' {
       {{#each ../scalars}}
         {{ convert name 'typeNames' }},
       {{/each}}
-    } from 'GQL'
+    } from '{{#if @root.config.moduleName}}{{ @root.config.moduleName }}{{else}}GraphQL{{/if}}'
     import * as TBTypes from 'teambition-types'
-    export * from 'GQL'
+    export * from '{{#if @root.config.moduleName}}{{ @root.config.moduleName }}{{else}}GraphQL{{/if}}'
 
     {{~> client}}
 

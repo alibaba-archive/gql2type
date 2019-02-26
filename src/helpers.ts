@@ -71,22 +71,30 @@ export function getEnumValue(type: string, name: string, options: Handlebars.Hel
 
 export function mapTBType(field: Field, realType: string, onType: string, options: Handlebars.HelperOptions) {
   const config = options.data.root.config || {};
-  const replaces: { [key: string]: string } = config.tbReplaces || {};
-  if (!field.isScalar || isPrimitiveType(field, options)) {
+  const replaces: { [key: string]: string } = config.replaces || {};
+  const customNameMap: { [key: string]: string } = config.nameMap || {};
+  if (!field.isScalar) {
     return realType;
   }
-  const fieldName = field.name.replace(/^_/, '').replace(/s$/, '').replace(/^\w/, c => c.toLowerCase());
-  let mappedName = nameMap[fieldName] || nameMap[field.name] ;
+
+  const map = Object.assign({}, nameMap, customNameMap);
+  const matchedKey = Object.keys(map).find(name => !!field.name.match(new RegExp(name)));
+  let mappedName: any = matchedKey && map[matchedKey];
+
   mappedName = (mappedName && mappedName.__proto__.constructor === Function ? mappedName(onType) : mappedName);
+
   let mappedResult = mappedName;
+
   if (!mappedName && realType === 'ObjectId') {
     mappedResult = field.name.replace(/^_/, '').replace(/s$/, '').replace(/^\w/, c => c.toUpperCase());
   }
+
   if (mappedResult) {
     mappedResult = Object.keys(replaces).reduce((acc, key) => {
       return acc.replace(new RegExp(key), replaces[key]);
     }, mappedResult);
   }
+
   return mappedResult ? `${nameSpace}.${mappedResult}` : realType;
 }
 
