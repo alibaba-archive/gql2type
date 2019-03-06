@@ -1,6 +1,6 @@
 {
   "name": "teambition-gql2type",
-  "version": "0.2.3",
+  "version": "0.2.4",
   "description": "This is a plugin for graphql-code-generator to transfer GraphQL schema to Typescript interfaces",
   "license": "MIT",
   "scripts": {

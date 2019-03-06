@@ -77,9 +77,15 @@ export function mapTBType(field: Field, realType: string, onType: string, option
     return realType;
   }
 
-  const map = Object.assign({}, nameMap, customNameMap);
-  const matchedKey = Object.keys(map).find(name => !!field.name.match(new RegExp(name)));
-  let mappedName: any = matchedKey && map[matchedKey];
+  let mappedName: any;
+  const onTypeMatchedKey = Object.keys(customNameMap).find(name => !!onType.match(new RegExp(name)));
+  mappedName = onTypeMatchedKey && customNameMap[onTypeMatchedKey][field.name];
+
+  if (!mappedName) {
+    const map = Object.assign({}, nameMap);
+    const matchedKey = Object.keys(map).find(name => !!field.name.match(new RegExp(name)));
+    mappedName = matchedKey && map[matchedKey];
+  }
 
   mappedName = (mappedName && mappedName.__proto__.constructor === Function ? mappedName(onType) : mappedName);
 
